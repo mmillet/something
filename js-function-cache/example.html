@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+
+<script src="function-cache.js"></script>
+<script>
+  function add(x, y) {
+    return x+y;
+  }
+  //最大缓存10条，过期时间5秒
+  var cachedAdd = makeCached(add, {maxLength:10, expires:10000});
+  var cnt = 0;
+  var interval1 = setInterval(function() {
+    cachedAdd(50, 50);
+    cachedAdd(cnt, 1);
+    cnt ++;
+    if(cnt > 20) {
+      console.log(console.log(makeCached._cachedData))
+      clearInterval(interval1);
+    }
+  }, 100);
+
+
+
+</script>
+</body>
+</html>

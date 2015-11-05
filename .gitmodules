@@ -1,0 +1,3 @@
+[submodule "react-tetris/static/howler"]
+	path = react-tetris/static/howler
+	url = https://github.com/goldfire/howler.js

@@ -1,0 +1,9 @@
+{
+  "name": "js-functional",
+  "version": "0.0.1",
+  "dependencies": {
+    "mori": "^0.3.2",
+    "ramda": "^0.17.1",
+    "underscore": "^1.8.3"
+  }
+}
