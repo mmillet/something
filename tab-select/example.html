@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    div,h3,li,ul {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      list-style: none;
+    }
+    #select1, #select2 {
+      width: 200px;
+      height: 30px;
+      line-height: 30px;
+      display: inline-block;
+      position: relative;
+      border: 1px solid #ccc;
+    }
+    #select1:after, #select2:after {
+      content : "▽";
+      float: right;
+    }
+
+    .drop-menu-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .drop-menu {
+      border: 1px solid #ccc;
+      position: absolute;
+      min-height: 10px;
+      display: none;
+    }
+    .drop-menu.open {
+      display: block;
+    }
+    .drop-menu .drop-menu-tab-content {
+      display: none;
+    }
+    .drop-menu .drop-menu-tab-content.current {
+      display: block;
+    }
+    .drop-menu .drop-menu-tab-title-wrapper {
+      position: absolute;
+      top: -30px;
+    }
+    .drop-menu .drop-menu-tab-title {
+      float: left;
+      border: 1px solid #ccc;
+      padding: 2px 4px;
+      font-weight: normal;
+    }
+    .drop-menu .drop-menu-tab-title.current {
+      font-weight: bold;
+    }
+    .drop-menu .drop-menu-item.current {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div id="select1">请选择...</div>
+<div id="select2">请选择...</div>
+<script src="jquery-1.7.2.min.js"></script>
+<script src="drop-menu.js"></script>
+<script>
+  $("#select1").dropMenu(
+    {
+      data:[
+        {title:"TAB1", items:[{key:"key1-1", value:"这是第一个的描述"}, {key:"key1-2", value:"这是第二条的描述"}]},
+        {title:"TAB2", items:[{key:"key2-1", value:"这是第三个的描述"}, {key:"key2-2", value:"这是第四条的描述"}]},
+        {title:"TAB3", items:[{key:"key3-1", value:"这是第五个的描述"}]}
+      ],
+      change: function(key, value) {
+        $("#select1").html(key);
+      }
+    }
+  );
+  $("#select2").dropMenu(
+    {
+      data: {
+        items: [{key: "key4-1", value: "这是第一个的描述"}, {key: "key4-2", value: "这是第二个的描述"}]
+      },
+      change: function(key, value) {
+        $("#select2").html(key);
+      }
+    }
+  );
+</script>
+</body>
+</html>
