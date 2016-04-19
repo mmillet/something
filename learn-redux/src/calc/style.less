@@ -1,0 +1,115 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font: 14px/1.5 "Roboto-Regular", "Helvetica Neue","Microsoft YaHei", Helvetica, verdana, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: Roboto-Regular;
+  src: url(./fonts/Roboto-Regular.ttf) format('truetype')
+}
+
+.calc {
+  margin: 30px auto;
+  font-size: 20px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 300px;
+  .screen-wrapper {
+    padding: 20px;
+    overflow: hidden;
+    background-color: #E3E7E9;
+    border-color: #E3E7E9;
+  }
+  .screen {
+    height: 90px;
+    width: 100%;
+    text-align: right;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    > .screen-last {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px;
+      line-height: 40px;
+      font-size: 20px;
+      color: #8C919A;
+    }
+    > .screen-current {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 50px;
+      line-height: 50px;
+      font-size: 28px;
+      color: #333;
+    }
+  }
+  tr > td {
+    padding: 0;
+    height: 70px;
+    width: 75px;
+    border: 1px solid #EFF1F3;
+    > a {
+      color: #8C919A;
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 70px;
+      text-align: center;
+      text-decoration: none;
+      &[cmd=number] {
+        background-color: #FAFBFC;
+        &:active {
+          background-color: darken(#FAFBFC, 10%);
+          outline: 1px solid darken(#FAFBFC, 10%);
+        }
+      }
+      &[cmd=back] ,
+      &[cmd=clean] ,
+      &[cmd=operator] {
+        position: relative;
+        background-color: #F7F8F9;
+        &:active {
+          background-color: darken(#F7F8F9, 10%);
+          outline: 1px solid darken(#F7F8F9, 10%);
+        }
+      }
+      &[cmd=back] > i {
+        display: inline-block;
+        background: url('./backspace.png') no-repeat center/cover;
+        vertical-align: middle;
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        top: 22px;
+        left: 25px;
+      }
+      &[value='0'] {
+        text-align: right !important;
+        padding-right: 32px !important;
+      }
+      &[cmd=calculate] {
+        background-color: #FB742E;
+        outline: 1px solid #FB742E;
+        color: #fff;
+        vertical-align: bottom;
+        padding-top: 74px;
+        height: 141px;
+        position: relative;
+        z-index: 10;
+        &:active {
+          background-color: darken(#FB742E, 10%);
+          outline: 1px solid darken(#FB742E, 10%);
+        }
+      }
+    }
+  }
+}

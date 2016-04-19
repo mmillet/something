@@ -1,0 +1,1 @@
+./node_modules/.bin/postcss -u autoprefixer src.css -o dist.css

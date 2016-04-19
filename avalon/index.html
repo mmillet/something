@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <div ms-controller="test">
+    <p>First name: <input ms-duplex="firstName" /></p>
+    <p>Last name: <input ms-duplex="lastName"  /></p>
+    <div>{{placeholder.aaa}}{{placeholder.bbb}}</div>
+  </div>
+  <script src="//cdn.bootcss.com/avalon.js/1.5.5/avalon.min.js"></script>
+  <script>
+    var first = 0;
+    var model = avalon.define({
+      $id: "test",
+      firstName: "司徒",
+      lastName: "正美",
+      placeholder: {}
+    });
+    setTimeout(function() {
+//      model.placeholder = { //我们必须要通过 = ，直接添加一个对象来添加子属性， 不能
+//        aaa: 1, //vm.placeholder.aaa =1; vm.placeholder.bbb = 2这样分散地添加子属性
+//        bbb: 2
+//      }
+//      model.placeholder = {aaa: 4};
+      model.placeholder.aaa = 4;
+    }, 1000);
+    model.placeholder.aaa = 5;
+    model.placeholder.bbb = 3;
+  </script>
+</body>
+</html>
