@@ -9,7 +9,8 @@ module.exports = {
   entry: {
     simple: path.join(SRC_PATH, 'simple/index.js'),
     immutable: path.join(SRC_PATH, 'immutable/index.js'),
-    calc: path.join(SRC_PATH, 'calc/index.js')
+    calc: path.join(SRC_PATH, 'calc/index.js'),
+    render: path.join(SRC_PATH, 'render/index.js')
   },
   output: {
     path: DIST_PATH,
@@ -51,6 +52,12 @@ module.exports = {
       filename: 'calc.html',
       template: path.join(SRC_PATH, 'calc/index.html'),
       chunks: ['calc']
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: 'render.html',
+      template: path.join(SRC_PATH, 'render/index.html'),
+      chunks: ['render']
     }),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
