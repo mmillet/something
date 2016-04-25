@@ -8,9 +8,7 @@ store.subscribe(() => {
 });
 
 var $rootEle = document.querySelector('#root');
-setTimeout(() => {
-  $rootEle.style.display = '';
-}, 300);
+setTimeout(() => $rootEle.style.display = '', 300);
 
 const render = (state) => {
   var {lastStack, stack, current, result} = state;

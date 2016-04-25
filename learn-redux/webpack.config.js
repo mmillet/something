@@ -5,12 +5,28 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const SRC_PATH = path.join(__dirname, './src');
 const DIST_PATH = path.join(__dirname, './dist');
 
+const getHtmlFilesPlugins = (htmlFiles) => {
+  return htmlFiles.map((item) => {
+    return new HtmlWebpackPlugin({
+      inject: true,
+      filename: item.filename,
+      template: path.join(SRC_PATH, item.path),
+      chunks: item.chunks
+    })
+  })
+}
+
 module.exports = {
   entry: {
     simple: path.join(SRC_PATH, 'simple/index.js'),
     immutable: path.join(SRC_PATH, 'immutable/index.js'),
     calc: path.join(SRC_PATH, 'calc/index.js'),
-    render: path.join(SRC_PATH, 'render/index.js')
+    render: path.join(SRC_PATH, 'render/index.js'),
+    renderRedux: path.join(SRC_PATH, 'render/index-redux.js'),
+    reselect: path.join(SRC_PATH, 'reselect/index.js'),
+    middleware: path.join(SRC_PATH, 'middleware/index.js'),
+    middlewareThunk: path.join(SRC_PATH, 'middleware/thunk.js'),
+    middlewarePromise: path.join(SRC_PATH, 'middleware/promise.js')
   },
   output: {
     path: DIST_PATH,
@@ -34,33 +50,60 @@ module.exports = {
     hot: true,
     inline: true
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
+  plugins: getHtmlFilesPlugins([
+    {
       filename: 'simple.html',
-      template: path.join(SRC_PATH, 'simple/index.html'),
+      path: 'simple/index.html',
       chunks: ['simple']
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
+    },
+    {
       filename: 'immutable.html',
-      template: path.join(SRC_PATH, 'immutable/index.html'),
+      path: 'immutable/index.html',
       chunks: ['immutable']
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
+    },
+    {
       filename: 'calc.html',
-      template: path.join(SRC_PATH, 'calc/index.html'),
+      path: 'calc/index.html',
       chunks: ['calc']
-    }),
-    new HtmlWebpackPlugin({
-      inject: true,
+    },
+    {
       filename: 'render.html',
-      template: path.join(SRC_PATH, 'render/index.html'),
+      path: 'render/index.html',
       chunks: ['render']
-    }),
+    },
+    {
+      filename: 'renderRedux.html',
+      path: 'render/index.html',
+      chunks: ['renderRedux']
+    },
+    {
+      filename: 'reselect.html',
+      path: 'reselect/index.html',
+      chunks: ['reselect']
+    },
+    {
+      filename: 'middleware.html',
+      path: 'middleware/index.html',
+      chunks: ['middleware']
+    },
+    {
+      filename: 'middlewareThunk.html',
+      path: 'middleware/thunk.html',
+      chunks: ['middlewareThunk']
+    },
+    {
+      filename: 'middlewarePromise.html',
+      path: 'middleware/promise.html',
+      chunks: ['middlewarePromise']
+    },
+    {
+      filename: 'index.html',
+      path: 'index.html',
+      chunks: []
+    },
+  ]).concat([
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
     })
-  ]
+  ])
 }

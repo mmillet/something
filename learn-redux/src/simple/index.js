@@ -6,7 +6,7 @@ import { createStore } from 'redux';
  * @param action
  * @return {number}
  */
-function counter(state = 0, action = '') {
+function counter(state = 0, action) {
   switch (action.type) {
     case 'INCREMENT':
       return state + 1;
@@ -17,25 +17,27 @@ function counter(state = 0, action = '') {
   }
 }
 
-/**
- * create store
- */
+// createStore
+// var create = window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore;
 let store = createStore(counter);
 
-/**
- * subscribe
- */
+
+// store.subscribe
 store.subscribe(() => {
-  var currentStore = store.getState();
-  render(currentStore);
+  var currentState = store.getState(); // store.getState
+  render(currentState);
 });
+
+// --------view--------
 var rootEle = document.querySelector('#root');
 const render = (state) => {
   rootEle.querySelector('i').innerHTML = state;
 };
 const bindEvents = () => {
   var btns = rootEle.querySelectorAll('button');
+  // store.dispatch
   btns[0].addEventListener('click', () => {store.dispatch({type: 'INCREMENT'})});
   btns[1].addEventListener('click', () => {store.dispatch({type: 'DECREMENT'})});
 };
 bindEvents();
+

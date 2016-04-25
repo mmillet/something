@@ -1,65 +1,14 @@
-import React, {addon} from 'react';
+import React from 'react';
 import ReactDom from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import update from 'react-addons-update';
 
-var UserOption1 = React.createClass({
-  // render optimize
+import UserSelectedList from './UserSelectedList';
+import UserOption from './UserOption';
+import UpdateBtn from './UpdateBtn';
+
+var App = React.createClass({
   // mixins: [PureRenderMixin],
-  getInitialState() {
-    return {
-      selected: false
-    }
-  },
-  onUserClick() {
-    this.setState({selected: !this.state.selected}, () => {
-      this.props.onUserSelected(this.props.name);
-    });
-  },
-  render() {
-    console.log('UserOption1 rendering');
-    var {name} = this.props;
-    var {selected} = this.state;
-    return <div>
-      <p onClick={this.onUserClick}>{name} {selected && <strong>√</strong>}</p>
-    </div>
-  }
-});
-
-
-var UserOption2 = React.createClass({
-  // render optimize
-  // mixins: [PureRenderMixin],
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return true;
-  // },
-  render() {
-    console.log('UserOption2 rendering');
-    var {name, selected, onUserSelected} = this.props;
-    return <div>
-      <p onClick={onUserSelected}>{name} {selected && <strong>√</strong>}</p>
-    </div>
-  }
-});
-
-var UserSelectedList = React.createClass({
-  render() {
-    console.log('UserSelectedList rendering');
-    var {users} = this.props;
-    return <i>
-      <span>Selected: </span>
-      {
-        users.map((user, index) => {
-          return user.selected ? (
-            <strong key={index}> {user.name} </strong>
-          ) : null
-        })
-      }
-      <br/>
-    </i>
-  }
-})
-
-var Main = React.createClass({
   getInitialState() {
     return {
       users: [
@@ -68,11 +17,16 @@ var Main = React.createClass({
         // {name: 'flyingzl'},
         // {name: 'fahai'},
         {name: 'mmillet'}
-      ]
+      ],
+      updated: {
+        date: Date().toString(),
+        by: 'mmillet'
+      }
     };
   },
   onUserSelected(name) {
     this.setState((state) => {
+      // anti-pattern @todo
       state.users.find((user) => {
         if(user.name === name) {
           user.selected = !user.selected;
@@ -82,37 +36,64 @@ var Main = React.createClass({
       return state;
     });
   },
-  onUserClick(user) {
-    this.setState({selected: user.name});
+  onUpdateUser(name) {
+    this.setState((state) => {
+      // anti-pattern @todo
+      state.updated.by = name;
+
+      return state;
+    });
+    // document.dispatchEvent(new CustomEvent('updateUser', {detail: name}));
+  },
+  onUpdateDate() {
+    this.setState((state) => {
+      // anti-pattern @todo
+      state.updated.date = Date().toString();
+
+      // modify 1
+      // state = update(state, {
+      //   updated: {
+      //     date: {$set: Date().toString()}
+      //   }
+      // });
+
+      // modify 2
+      // state.updated = Object.assign({}, state.updated, {date: Date().toString()});
+
+      // modify 3
+      // state.updated = {...state.updated, date: Date().toString()};
+
+      return state;
+    });
   },
   render() {
-    console.log('Main rendering');
-    var {users} = this.state;
+    console.log('App rendering');
+    var {users, updated} = this.state;
     return (
       <div>
-        <h2>重复渲染</h2>
-        <UserSelectedList users={users}/>
+        <h2>User List</h2>
         <hr/>
         {
           users.map((user, index) => {
-            return <UserOption1 key={index} name={user.name} onUserSelected={this.onUserSelected}/>
+            return <UserOption key={index} name={user.name}
+                               onUserSelected={this.onUserSelected}
+                               onUpdateUser={this.onUpdateUser}/>
           })
         }
 
-        {/*
+        <UserSelectedList users={users}/>
+        <hr/>
 
-        <h3>优化</h3>
-        {
-          users.map((user, index) => {
-            return <UserOption2 key={index} name={user.name} selected={user.selected}
-                                onUserSelected={this.onUserSelected.bind(this, user.name)}/>
-          })
-        }
-
-         */}
+        <address>
+          <span>Updated at {updated.date} by {updated.by}</span>
+          <UpdateBtn onClick={this.onUpdateDate}>Update date</UpdateBtn>
+        </address>
       </div>
     );
   }
 });
 
-ReactDom.render(<Main/>, document.getElementById('root'));
+ReactDom.render(
+  <App/>,
+  document.getElementById('root')
+);
